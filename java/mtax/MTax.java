@@ -13,6 +13,7 @@ public class MTax implements Constant {
         List<String> errorList = new ArrayList<>();
         
         List<String> taxCategoryList = MInfoTaxCategory.getTaxCategoryStringList();
+
         
         if(xTaxList != null && xTaxList.size() > 0) {
             
@@ -20,28 +21,31 @@ public class MTax implements Constant {
             int cont = 0;
 
             for (X_Tax tax : xTaxList) {
+                
+                String id = tax.getId().toString();
+    
                 if(tax.getId() != null){
                     validIds.add(tax.getId().toString());
                 }
                   if(tax.getAmount() == null) {
-                      errorList.add("The amount is mandatory");
+                      errorList.add("The amount is mandatory in id: "+id);
                   }
 
                 if(tax.getTax() == null) {
-                    errorList.add("The tax is mandatory");
+                    errorList.add("The tax is mandatory in id: "+id);
                 }
                   else if(!taxCategoryList.contains(tax.getTax())) {
-                      errorList.add("The tax is not a valid data");
+                      errorList.add("The tax is not a valid data in id: "+id);
                   }
 
                   if(tax.isLocal()){
                       if(tax.isTrasladado() && tax.getTaxAmount() == null ) {
-                          errorList.add("the TaxAmount is mandotory");
+                          errorList.add("the TaxAmount is mandotory in id: "+id);
                       }
                   } 
                   else {
                       if(tax.getTaxAmount() == null ) {
-                          errorList.add("The amount is mandatory");
+                          errorList.add("The amount is mandatory in id: "+id);
                       }
                   }
                 
