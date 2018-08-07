@@ -12,49 +12,51 @@ public class MTax implements Constant {
         
         List<String> errorList = new ArrayList<>();
         
-//        List<String> taxCategoryList = MInfoTaxCategory.getTaxCategoryStringList();
+        List<String> taxCategoryList = MInfoTaxCategory.getTaxCategoryStringList();
         
         if(xTaxList != null && xTaxList.size() > 0) {
+            
             List<String> validIds = new ArrayList<>();
             int cont = 0;
+
             for (X_Tax tax : xTaxList) {
                 if(tax.getId() != null){
                     validIds.add(tax.getId().toString());
                 }
-//                if(tax.getAmount() == null) {
-//                    errorList.add("El importe es obligatorio");
-//                }
+                  if(tax.getAmount() == null) {
+                      errorList.add("The amount is mandatory");
+                  }
 
                 if(tax.getTax() == null) {
-                    errorList.add("El impuesto es obligatorio");
+                    errorList.add("The tax is mandatory");
                 }
-//                else if(!taxCategoryList.contains(tax.getTax())) {
-//                    errorList.add("El impuesto no es un dato valido");
-//                }
+                  else if(!taxCategoryList.contains(tax.getTax())) {
+                      errorList.add("The tax is not a valid data");
+                  }
 
-//                if(tax.isLocal()){
-//                    if(tax.isTrasladado() && tax.getTaxAmount() == null ) {
-//                        errorList.add("El importe es obligatorio");
-//                    }
-//                } 
-//                else {
-//                    if(tax.getTaxAmount() == null ) {
-//                        errorList.add("El importe es obligatorio");
-//                    }
-//                }
+                  if(tax.isLocal()){
+                      if(tax.isTrasladado() && tax.getTaxAmount() == null ) {
+                          errorList.add("the TaxAmount is mandotory");
+                      }
+                  } 
+                  else {
+                      if(tax.getTaxAmount() == null ) {
+                          errorList.add("The amount is mandatory");
+                      }
+                  }
                 
                 if(!tax.isLocal()){
                     cont++;
                 }
             }
             if(cont<=0){
-                errorList.add("Debe de incluir al menos una tasa no local");
+                errorList.add("Must include at least one non-local rate/tax");
             }
             if(validIds.size() > 0){
                     
                     List<X_Tax> xt = TaxsByListId(validIds, false);
                     if(xt.size() != validIds.size()){
-                        errorList.add("Existen datos no guardados previamente");
+                        errorList.add("There are data not saved previously");
                     }else{
                         HashMap<String, X_Tax> map_taxs = new HashMap<String, X_Tax>();
                         for(X_Tax tax: xt){
@@ -70,9 +72,9 @@ public class MTax implements Constant {
                     }
             }
         }
-//        else {
-//            errorList.add("El documento no tiene tasas");
-//        }
+        else {
+            errorList.add("The document has no fees");
+        }
         
         return errorList;
     }
