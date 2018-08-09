@@ -4,10 +4,6 @@ import java.util.List;
 
 public class MTax implements Constant {
     
-    public MTax(){
-        
-    }
-    
     public static List<String> validate(List<X_Tax> xTaxList) {
         
         List<String> errorList = new ArrayList<>();
@@ -29,7 +25,7 @@ public class MTax implements Constant {
                 
                  id = tax.getId().toString();
                 
-                //tax has id?
+                //tax has id? (we are assuming that no id no tax element so we skip this to the next element in the list)
                 if(tax.getId() != null){
 
                     validIds.add(tax.getId().toString());
@@ -66,11 +62,18 @@ public class MTax implements Constant {
                       }//end if
 
                   }//end else
+
+                //tax is foreign  ?             
+                if(!tax.isLocal()){
+
+                        foreignRates = true;
+
+                    }//end if
                 
 
                 }//end if
 
-                //tax is foreign                
+                //tax is foreign  ?             
                 if(!tax.isLocal()){
 
                     foreignRates = true;
